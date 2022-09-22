@@ -1,9 +1,27 @@
+import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import getStripe from '../lib/get-stripe'
+import productsData from '../src/data/products'
 
 const Cart = () => {
+    const myProducts = productsData
+
+    const redirectToCheckout = async () => {
+        const { data: { id } } = await axios.post('/api/checkout_sessions', {
+            items: [{
+                price: myProducts[0].id,
+                quantity: 1
+            }]
+        });
+
+        // Redirect to checkout
+        const stripe = await getStripe();
+        await stripe.redirectToCheckout({ sessionId: id });
+    };
+
     return (
         <>
             <Head>
@@ -44,7 +62,9 @@ const Cart = () => {
                         </div>
                         <div className='w-2/6 justify-between shadow p-4'>
                             <h4 className='pb-6 font-bold flex justify-between'> <span>Total:</span> <span>$350</span></h4>
-                            <button className=' w-full px-5 py-3  rounded font-medium bg-cyan-500'>Checkout</button>
+                            <button className=' w-full px-5 py-3  rounded font-medium bg-cyan-500'
+                                onClick={redirectToCheckout}
+                            >Checkout</button>
                         </div>
                     </div>
                 </div>
