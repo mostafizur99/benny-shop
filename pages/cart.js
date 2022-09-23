@@ -14,7 +14,12 @@ const Cart = () => {
             items: [{
                 price: myProducts[0].id,
                 quantity: 1
-            }]
+            },
+            {
+                price: myProducts[1].id,
+                quantity: 2
+            }
+            ]
         });
 
         // Redirect to checkout
