@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import Layout from '../src/components/layouts/Layout'
 
 export default function Home() {
   return (
@@ -10,7 +10,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h2 className="text-slate-500 font-medium">Hello Benny Shop</h2>
+      <Layout>
+        <h2 className="text-slate-500 font-medium">Hello Benny Shop</h2>
+      </Layout>
     </>
   )
 }
