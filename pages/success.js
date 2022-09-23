@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import useSWR from 'swr';
 import shootFireworks from '../lib/shoot-fireworks';
-import { fetcher } from '../src/utils/axiosKits';
+import { fetcher } from '../utils/axiosKits';
 
 const SuccessPage = () => {
     const {
