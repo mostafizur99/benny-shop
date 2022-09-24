@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
+import { useShoppingCart } from '../../../hooks/use-cart';
 
 const Header = () => {
+    const { totalPrice, cartCount } = useShoppingCart();
+
     return (
         <section className='py-4 shadow-md'>
             <div className='container mx-auto'>
@@ -22,7 +25,7 @@ const Header = () => {
                         <Link href={'/cart'} passHref>
                             <a className='text-md font-medium text-slate-600 hover:text-cyan-500 hover:transition-all flex items-center group'>
                                 <FaShoppingCart />
-                                <span className='ml-2'>$00.00 <span className='text-sm text-slate-400 group-hover:text-cyan-500'>(0)</span></span>
+                                <span className='ml-2'>${totalPrice} <span className='text-sm text-slate-400 group-hover:text-cyan-500'>({cartCount})</span></span>
                             </a>
                         </Link>
                     </div>
