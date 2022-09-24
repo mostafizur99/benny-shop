@@ -1,3 +1,5 @@
+import React, { createContext, useContext, useMemo } from "react";
+import useLocalReducer from "./use-local-reducer";
 
 
 const initialCartValues = {
@@ -83,4 +85,53 @@ const cartReducer = (state = {}, action) => {
         default:
             return state;
     }
+};
+
+
+//context
+const CartContext = createContext();
+
+export const CartProvider = ({ currency = 'USD', children = null }) => {
+    const [cart, dispatch] = useLocalReducer(
+        'cart',
+        cartReducer,
+        initialCartValues
+    );
+
+    const contextValue = useMemo(
+        () => [
+            {
+                ...cart,
+                currency,
+            },
+            dispatch,
+        ],
+        [cart, currency]
+    );
+
+    return (
+        <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
+    );
+}
+
+
+export const useShoppingCart = () => {
+    const [cart, dispatch] = useContext(CartContext);
+
+    const addCartItem = (product, quantity = 1) =>
+        dispatch({ type: 'ADD_ITEM', product, quantity });
+
+    const removeCartItem = (product, quantity = 1) =>
+        dispatch({ type: 'REMOVE_ITEM', product, quantity });
+
+    const clearCart = () => dispatch({ type: 'CLEAR_CART' });
+
+    const shoppingCart = {
+        ...cart,
+        addCartItem,
+        removeCartItem,
+        clearCart,
+    };
+
+    return shoppingCart;
 };
