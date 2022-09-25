@@ -14,15 +14,10 @@ const Cart = () => {
 
     const redirectToCheckout = async () => {
         const { data: { id } } = await axios.post('/api/checkout_sessions', {
-            items: [{
-                price: myProducts[0].id,
-                quantity: 1
-            },
-            {
-                price: myProducts[1].id,
-                quantity: 2
-            }
-            ]
+            items: Object.entries(cartDetails).map(([_, { id, quantity }]) => ({
+                price: id,
+                quantity,
+            })),
         });
 
         // Redirect to checkout
